@@ -2,17 +2,21 @@
   "name": "css",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "loader.js",
   "scripts": {
-    "start": "ts-node index.ts"
+    "dev": "tsc -w",
+    "build": "tsc"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@types/css": "^0.0.30",
+    "@types/loader-utils": "^1.1.0",
     "@types/stylus": "^0.48.28",
+    "@types/webpack": "^3.0.9",
     "css": "^2.2.1",
+    "loader-utils": "^1.1.0",
     "stylus": "^0.54.5",
     "ts-node": "^3.3.0",
     "typescript": "^2.4.2"
