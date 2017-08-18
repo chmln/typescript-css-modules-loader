@@ -12,9 +12,11 @@ export default function(source: any, map: any) {
   loader.addDependency(loader.resourcePath);
 
   const callback = loader.async();
-  parser(loader.resourcePath).then(declaration => {
-    write(`${loader.resourcePath}.d.ts`, declaration)
-  })
 
-  callback(null, source, map)
+  parser(loader.resourcePath)
+    .then(declaration => {
+      write(`${loader.resourcePath}.d.ts`, declaration)
+      callback(null, source, map)
+    })
+    .catch(() => callback(null, source, map))
 };
