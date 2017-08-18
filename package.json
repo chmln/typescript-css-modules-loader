@@ -1,24 +1,24 @@
 {
   "name": "typed-stylus-modules-loader",
-  "version": "1.0.0",
-  "description": "",
-  "main": "loader.js",
+  "version": "0.0.1",
+  "description": "Typescript typings generator for stylus modules",
+  "main": "dist/loader.js",
   "scripts": {
     "dev": "tsc -w",
     "build": "tsc"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Gregory <gregory.mkv@gmail.com>",
+  "license": "MIT",
   "dependencies": {
     "@types/css": "^0.0.30",
     "@types/loader-utils": "^1.1.0",
     "@types/stylus": "^0.48.28",
     "@types/webpack": "^3.0.9",
     "css": "^2.2.1",
-    "loader-utils": "^1.1.0",
-    "stylus": "^0.54.5",
-    "ts-node": "^3.3.0",
+    "stylus": "^0.54.5"
+  },
+  "devDependencies": {
     "typescript": "^2.4.2"
   }
 }
