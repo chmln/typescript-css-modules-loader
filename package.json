@@ -1,6 +1,6 @@
 {
   "name": "typed-stylus-modules-loader",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Typescript typings generator for stylus modules",
   "main": "dist/loader.js",
   "scripts": {
