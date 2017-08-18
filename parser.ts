@@ -25,7 +25,9 @@ async function getStylusAST(path: string): Promise<css.Rule[] | null> {
   }
 }
 
-const validSelector = /^(\.[\S]+\s?)+$/
+const validSelector = /(\.[\S]+)/
+const className = /\.\w+/
+const isClassName =(s: string) => s.indexOf(":") === -1 && className.test(s)
 
 async function parse(path: string) {
   const rules = await getStylusAST(path)
@@ -36,36 +38,43 @@ async function parse(path: string) {
 
   for(let i = 0; i < rules.length; i++) {
     const rule = rules[i]
+
     if (rule.selectors !== undefined)
       rule.selectors
         .filter(s => validSelector.test(s))
         .forEach(selector => {
-          const classes = selector.split(".").slice(1)
-          const rootIndex = selector.indexOf(" ") === -1 ? 0 : selector.split(" ").length - 1
+          let className = selector.split(" ").filter(isClassName).pop()
 
-          const root = classes[rootIndex]
-          const modifiers = classes.slice(rootIndex + 1)
+          if (className === undefined)
+            return;
+
+          else if (!className.startsWith("."))
+            className = className.substr(className.indexOf("."))
+
+          const classes = className.split(".").slice(1)
+          const root = classes[0]
+          const modifiers = classes.slice(1)
 
           if (options[root] === undefined)
             options[root] = modifiers || [];
 
           else if (modifiers.length > 0)
             modifiers.forEach(m => options[root].indexOf(m) === -1 && options[root].push(m))
-
         })
   }
 
   const declaration = Object.keys(options).reduce(
     (d, selector) => {
       const modifiers = options[selector].map(s => `"${s}"?: boolean`).join(",\n")
-      const opts = `{ ${modifiers} }`
+      const args = modifiers.length ? `modifiers?: { ${modifiers} }` : ""
 
-      return d.concat(`\t"${selector}": (o?: ${opts}) => string,\n`)
+      return d.concat(`\t"${selector}": (${args}) => string,\n`)
     },
     "declare const styles: {\n"
   )
 
   return `${declaration}}
+
 export = styles`
 }
 
