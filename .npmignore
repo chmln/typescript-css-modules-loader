@@ -1,1 +1,3 @@
 node_modules/
+loader.ts
+parser.ts
