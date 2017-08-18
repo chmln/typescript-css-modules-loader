@@ -46,11 +46,6 @@ async function parse(path: string) {
           const classNames = selector.split(" ").filter(isClassName)
           let className = classNames.pop()
 
-          classNames.forEach(c => {
-            if (c && c.startsWith(".") && !options[c])
-              options[c.slice(1)] = []
-          })
-
           if (className === undefined)
             return;
 
@@ -66,6 +61,12 @@ async function parse(path: string) {
 
           else if (modifiers.length > 0)
             modifiers.forEach(m => options[root].indexOf(m) === -1 && options[root].push(m))
+
+          classNames.forEach(c => {
+            const cName = c.slice(1)
+            if (c && c.startsWith(".") && !options[cName])
+              options[cName] = []
+          })
         })
   }
 
