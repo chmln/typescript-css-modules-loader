@@ -43,7 +43,13 @@ async function parse(path: string) {
       rule.selectors
         .filter(s => validSelector.test(s))
         .forEach(selector => {
-          let className = selector.split(" ").filter(isClassName).pop()
+          const classNames = selector.split(" ").filter(isClassName)
+          let className = classNames.pop()
+
+          classNames.forEach(c => {
+            if (c && c.startsWith(".") && !options[c])
+              options[c.slice(1)] = []
+          })
 
           if (className === undefined)
             return;
