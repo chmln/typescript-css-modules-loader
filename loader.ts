@@ -1,24 +1,20 @@
 // import * as path from "path"
-// import * as loaderUtils from "loader-utils"
+import parser from "./parser"
+import { writeFile } from "fs"
+import { promisify } from "util"
 
-export default function() {
+const write = promisify(writeFile)
+
+export default function(source: any, map: any) {
   const loader = this as any
 
   loader.cacheable && loader.cacheable();
   loader.addDependency(loader.resourcePath);
 
-  // const callback = loader.async();
+  const callback = loader.async();
+  parser(loader.resourcePath).then(declaration => {
+    write(`${loader.resourcePath}.d.ts`, declaration)
+  })
 
-  // const creator = new DtsCreator(options);
-
-  // creator.create(..., source) tells the module to operate on the
-  // source variable. Check API for more details.
-  // creator.create(loader.resourcePath, source).then(content => {
-  //   // Emit the created content as well
-  //   loader.emitFile(path.relative(loader.options.context, content.outputFilePath), content.contents || [''], map);
-  //   content.writeFile().then(_ => {
-  //     callback(null, source, map);
-  //   });
-  // });
-  console.log(loader)
+  callback(null, source, map)
 };
