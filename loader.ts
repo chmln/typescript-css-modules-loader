@@ -13,10 +13,13 @@ export default function(source: any, map: any) {
 
   const callback = loader.async();
 
-  parser(loader.resourcePath)
+  parser(source)
     .then(declaration => {
       write(`${loader.resourcePath}.d.ts`, declaration)
       callback(null, source, map)
     })
-    .catch(() => callback(null, source, map))
+    .catch(err => {
+      loader.emitError(err)
+      callback(null, source, map)
+    })
 };

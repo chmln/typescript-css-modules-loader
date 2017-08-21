@@ -1,27 +1,16 @@
 import * as css from 'css'
-import * as stylus from 'stylus'
-import * as util from 'util'
-import * as fs from 'fs'
 
-const readFile = util.promisify(fs.readFile)
-const parseStylus = (sourceCode: string): Promise<string> => new Promise((resolve, reject) => {
-  stylus.render(sourceCode, {}, (err, css) => err ? reject(err) : resolve(css))
-})
-
-async function getStylusAST(path: string): Promise<css.Rule[] | null> {
+async function getAST(cssCode: string): Promise<[Error | null, css.Rule[]]> {
   try {
-    const content = (await readFile(path)).toString()
-    const cssCode = await parseStylus(content)
     const result = css.parse(cssCode)
 
     return result.stylesheet !== undefined
-      ? result.stylesheet.rules as css.Rule[]
-      : null
+      ? [null, result.stylesheet.rules as css.Rule[]]
+      : [new Error("Error parsing CSS"), []]
   }
 
-  catch (e) {
-    console.error(e)
-    return null
+  catch (e ) {
+    return [e, []]
   }
 }
 
@@ -29,10 +18,10 @@ const validSelector = /(\.[\S]+)/
 const className = /\.\w+/
 const isClassName =(s: string) => s.indexOf(":") === -1 && className.test(s)
 
-async function parse(path: string) {
-  const rules = await getStylusAST(path)
+async function parse(cssCode: string) {
+  const [ error, rules] = await getAST(cssCode)
 
-  if (rules === null) return null
+  if (error !== null) throw error;
 
   const options: Record<string, string[]> = {}
 
@@ -85,6 +74,6 @@ async function parse(path: string) {
 export = styles`
 }
 
-const start = async (path: string) => await parse(path)
+const start = async (cssCode: string) => await parse(cssCode)
 
 export default start
