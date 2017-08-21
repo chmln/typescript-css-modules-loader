@@ -1,5 +1,7 @@
 # typescript-css-modules
-Loader to generate typescript declaration files (.d.ts) from css modules
+Loader to generate typescript declaration files (.d.ts) from css modules.
+
+Should be used in tandem with `enhanced-css-loader`.
 
 ## Installation
 
@@ -32,4 +34,21 @@ If you're using a preprocessor, put `"typescript-css-modules-loader"` just befor
     { loader: "stylus-loader" },
   ],
 }
+```
+
+## Example
+In: `styles.styl`
+
+```stylus
+.component
+  display flex
+```
+
+Out: `styles.styl.d.ts`
+```typescript
+declare const styles: {
+  "component": () => string,
+}
+
+export = styles
 ```
