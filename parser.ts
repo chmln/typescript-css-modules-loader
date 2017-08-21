@@ -9,7 +9,7 @@ async function getAST(cssCode: string): Promise<[Error | null, css.Rule[]]> {
       : [new Error("Error parsing CSS"), []]
   }
 
-  catch (e ) {
+  catch (e) {
     return [e, []]
   }
 }
@@ -74,6 +74,4 @@ async function parse(cssCode: string) {
 export = styles`
 }
 
-const start = async (cssCode: string) => await parse(cssCode)
-
-export default start
+export default parse
