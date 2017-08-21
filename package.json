@@ -5,8 +5,7 @@
   "main": "dist/loader.js",
   "scripts": {
     "dev": "tsc -w",
-    "build": "tsc",
-    "publish": "npm run build && npm publish"
+    "build": "tsc"
   },
   "keywords": [],
   "author": "Gregory <gregory.mkv@gmail.com>",
