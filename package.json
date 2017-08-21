@@ -1,6 +1,6 @@
 {
   "name": "typescript-css-modules",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Typescript typings generator for stylus modules",
   "main": "dist/loader.js",
   "scripts": {
