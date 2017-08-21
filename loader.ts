@@ -2,11 +2,12 @@
 import parser from "./parser"
 import { writeFile } from "fs"
 import { promisify } from "util"
+import { loader } from "webpack"
 
 const write = promisify(writeFile)
 
-export default function(source: any, map: any) {
-  const loader = this as any
+export default function(this: loader.LoaderContext, source: string, map: any) {
+  const loader = this
 
   loader.cacheable && loader.cacheable();
   loader.addDependency(loader.resourcePath);
@@ -16,10 +17,10 @@ export default function(source: any, map: any) {
   parser(source)
     .then(declaration => {
       write(`${loader.resourcePath}.d.ts`, declaration)
-      callback(null, source, map)
+      callback && callback(null, source, map)
     })
     .catch(err => {
       loader.emitError(err)
-      callback(null, source, map)
+      callback && callback(null, source, map)
     })
 };
