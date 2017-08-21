@@ -1,4 +1,4 @@
-# typescript-css-modules
+# typescript-css-modules-loader
 Loader to generate typescript declaration files (.d.ts) from css modules.
 
 Should be used in tandem with `enhanced-css-loader`.
