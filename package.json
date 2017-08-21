@@ -1,6 +1,6 @@
 {
   "name": "typescript-css-modules-loader",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Generate typescript declaration files (.d.ts) for css modules",
   "main": "dist/loader.js",
   "scripts": {
